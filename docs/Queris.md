@@ -74,20 +74,70 @@ db.comunidades.find({
 
 ---
 
+### 7. Consultas sobre Arreglos (Array Querying)
+A diferencia de las bases de datos relacionales, MongoDB permite indexar y consultar directamente dentro de listas. El operador `$all` garantiza que el documento devuelto contenga *todos* los elementos especificados en el arreglo de etiquetas, sin importar el orden.
+
+```javascript
+db.articulos.find({ "etiquetas": { $all: ["ancestral", "tejido"] } });
+```
+
+---
+
+### 8. Proyección de Documentos (Projection)
+Demuestra la técnica de optimización de ancho de banda. Mediante el segundo argumento del método `find`, se instruye a la base de datos para que construya y devuelva una versión reducida del documento, excluyendo la llave primaria obligatoria `_id` (`0`) y seleccionando explícitamente (`1`) solo los campos de interés.
+
+```javascript
+db.articulos.find(
+  { "precio": { $gt: 20 } },
+  { "_id": 0, "nombres.es": 1, "precio": 1, "stock": 1 }
+);
+```
+
+---
+
+### 9. Framework de Agregación (Aggregation Pipeline)
+El patrón de diseño más potente de MongoDB para análisis de datos (Data Analytics). Compone una tubería de procesamiento por etapas (`stages`). Primero filtra (`$match`) los pedidos que están activos (`en_camino` o `entregado`) mediante el operador `$in`, y luego agrupa (`$group`) los resultados para calcular métricas financieras acumuladas en tiempo real.
+
+```javascript
+db.pedidos.aggregate([
+  { $match: { "estado": { $in: ["en_camino", "entregado"] } } },
+  { $group: {
+      _id: null,
+      ingresos_totales: { $sum: "$total_pago" },
+      cantidad_pedidos: { $sum: 1 }
+  }}
+]);
+```
+
+---
+
+### 10. Operaciones Atómicas y Control de Concurrencia
+Muestra cómo modificar un documento de forma segura en un entorno de alta demanda. El operador `$inc` incrementa (o reduce, al ser negativo) un valor numérico directamente a nivel de base de datos, evitando la condición de carrera típica de "leer, restar en memoria local y volver a guardar".
+
+```javascript
+db.articulos.updateOne(
+  { "sku": "BOLS-TIK-001" },
+  { $inc: { "stock": -1 } }
+);
+```
+
+---
+
 ## 📎 Anexos
 
 ### Anexo A. Modelo Físico — Esquema de Validación (JSON Schema)
 Script: [`scripts/setup/01_crear_colecciones.js`](../scripts/setup/01_crear_colecciones.js)
 
-Define las reglas de validación estructural y los tipos de datos requeridos para la colección `pedidos`, asegurando la integridad de dominio a nivel de motor de base de datos mediante `$jsonSchema`.
+Define las reglas de validación estructural y los tipos de datos requeridos para todas las colecciones, asegurando la integridad de dominio a nivel de motor de base de datos mediante `$jsonSchema`.
 
-| Campo               | Tipo BSON            | Restricción                                    |
-|---------------------|----------------------|------------------------------------------------|
-| `cliente_id`        | `objectId`           | Requerido                                      |
-| `fecha_pedido`      | `date`               | Requerido                                      |
-| `estado`            | `string` (enum)      | Solo valores del ciclo de vida del pedido      |
-| `total_pago`        | `double` / `decimal` | Requerido, valor ≥ 0                           |
-| `detalles_articulos`| `array`              | Mínimo 1 ítem, cada ítem requiere SKU y cantidad |
+| Colección     | Nivel      | Campos Principales Requeridos y Reglas de Negocio destacadas |
+|---------------|------------|--------------------------------------------------------------|
+| `pedidos`     | Estricta   | `cliente_id`, `estado` (enum), `total_pago` (≥ 0), `metodo_pago`, `detalles_articulos` (mínimo 1), `direccion_entrega`. |
+| `articulos`   | Moderada   | `sku`, `vendedor_id`, `comunidad_id`, `precio` (≥ 0), `stock` (≥ 0), `categoria_id`. Permite `dimensiones`, `fotos_url` y `etiquetas`. |
+| `usuarios`    | Moderada   | `nombre_completo`, `email` (regex de formato), `rol` (enum: cliente, vendedor, admin). Array de `direcciones`. |
+| `comunidades` | Estricta   | `nombre_comunidad`, `etnia`, `ubicacion_geografica` (requiere formato válido `GeoJSON Point` estricto). |
+| `reseñas`     | Estricta   | `articulo_id`, `usuario_id`, `puntuacion` (rango numérico de 1 a 5). |
+| `categorias`  | Estricta   | `slug`, `nombres_localizados.es`. Soporta jerarquía con llave `parent_id`. |
 
 ---
 
@@ -96,12 +146,15 @@ Script: [`scripts/setup/02_crear_indices.js`](../scripts/setup/02_crear_indices.
 
 | Índice                          | Colección    | Tipo          | Propósito                                        |
 |---------------------------------|--------------|---------------|--------------------------------------------------|
-| `{ sku: 1 }`                    | `articulos`  | Único         | Evitar SKU duplicados                            |
-| `{ categoria_id: 1, precio: 1 }`| `articulos`  | Compuesto     | Optimizar catálogo filtrado y ordenado           |
-| `{ nombres.es, descripciones.es }`| `articulos`| Texto         | Motor de búsqueda por palabras clave             |
-| `coordenadas: "2dsphere"`       | `comunidades`| Geoespacial   | Habilitar consultas de proximidad (`$near`)      |
-| `{ articulo_id: 1, created_at: -1 }` | `reseñas` | Compuesto  | Ordenar reseñas por artículo y fecha             |
-| `{ cliente_id: 1 }`             | `pedidos`    | Simple        | Historial de pedidos por cliente                 |
+| `{ sku: 1 }`                    | `articulos`  | Único         | Evitar SKU duplicados en inventario              |
+| `{ email: 1 }`                  | `usuarios`   | Único         | Prevenir registro de cuentas con email duplicado |
+| `{ categoria_id: 1, precio: 1 }`| `articulos`  | Compuesto     | Optimizar vista de catálogo ordenado             |
+| `{ nombres.es, descripciones.es }`| `articulos`| Texto         | Motor de búsqueda por relevancia                 |
+| `coordenadas: "2dsphere"`       | `comunidades`| Geoespacial   | Búsqueda de proximidad (`$near`, `$geoWithin`)   |
+| `{ articulo_id: 1, created_at: -1 }`| `reseñas`| Compuesto     | Historial cronológico de reseñas de un artículo  |
+| `{ cliente_id: 1 }`             | `pedidos`    | Simple        | Historial de transacciones de un usuario         |
+| `{ estado: 1 }`                 | `pedidos`    | Simple        | Filtrado de pedidos (ej. dashboard de logística) |
+| `{ vendedor_id: 1 }`            | `articulos`  | Simple        | Catálogo específico de un vendedor               |
 
 ---
 *Documentación estructurada para presentación académica e implementación en arquitecturas NoSQL.*
