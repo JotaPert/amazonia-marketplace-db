@@ -1,6 +1,6 @@
 # 🍃 Marketplace de la Amazonía — Base de Datos Documental
 
-Repositorio de datos y scripts de configuración de la base de datos documental (**MongoDB**) para el proyecto Marketplace de la Amazonía.
+Repositorio de datos y scripts de configuración de la base de datos documental (**MongoDB**) para explicar un ejercicio académico sobre un Marketplace de la Amazonía.
 
 ---
 
