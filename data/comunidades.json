@@ -1,0 +1,23 @@
+{
+    "_id": {
+        "$oid": "65a1b2c3d4e5f6001234567a"
+    },
+    "nombre_comunidad": "Kamakú",
+    "etnia": "Tikuna",
+    "ubicacion_geografica": {
+        "rio": "Amazonas",
+        "departamento": "Amazonas",
+        "coordenadas": {
+            "type": "Point",
+            "coordinates": [
+                -70.02,
+                -3.81
+            ]
+        }
+    },
+    "lenguas_principales": [
+        "Tikuna",
+        "Español",
+        "Portugués"
+    ]
+}

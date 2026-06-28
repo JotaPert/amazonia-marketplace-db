@@ -1,0 +1,57 @@
+{
+  "_id": {
+    "$oid": "65a1b2c3d4e5f60012345678"
+  },
+  "sku": "BOLS-TIK-001",
+  "vendedor_id": {
+    "$oid": "65a1b2c3d4e5f60012345679"
+  },
+  "comunidad_id": {
+    "$oid": "65a1b2c3d4e5f6001234567a"
+  },
+  "comunidad_resumen": {
+    "nombre": "Kamakú",
+    "etnia": "Tikuna"
+  },
+  "nombres": {
+    "es": "Bolso tejido tradicional",
+    "en": "Traditional woven bag",
+    "tikuna": "..."
+  },
+  "descripciones": {
+    "es": "Bolso hecho a mano con fibras naturales...",
+    "en": "Handmade bag with natural fibers..."
+  },
+  "historia_cultural": {
+    "es": "Este diseño representa el río y la vida..."
+  },
+  "precio": 45.50,
+  "moneda": "USD",
+  "stock": 12,
+  "dimensiones": {
+    "alto_cm": 30,
+    "ancho_cm": 25,
+    "peso_g": 200
+  },
+  "promedio_calificacion": 4.8,
+  "total_reseñas": 24,
+  "categoria_id": {
+    "$oid": "65a1b2c3d4e5f6001234567b"
+  },
+  "etiquetas": [
+    "ancestral",
+    "natural",
+    "tejido",
+    "fibras"
+  ],
+  "fotos_url": [
+    "https://storage.com/foto1.jpg",
+    "https://storage.com/foto2.jpg"
+  ],
+  "created_at": {
+    "$date": "2024-01-15T10:00:00Z"
+  },
+  "updated_at": {
+    "$date": "2024-01-15T10:00:00Z"
+  }
+}

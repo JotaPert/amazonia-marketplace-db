@@ -1,0 +1,26 @@
+{
+    "_id": {
+        "$oid": "65a1b2c3d4e5f60012345679"
+    },
+    "nombre_completo": "Ana Pérez",
+    "email": "ana.perez@email.com",
+    "rol": "cliente",
+    "preferencias_idioma": "es",
+    "direcciones": [
+        {
+            "tipo": "casa",
+            "calle": "Av. Siempreviva 742",
+            "ciudad": "Bogotá",
+            "is_default": true
+        },
+        {
+            "tipo": "oficina",
+            "calle": "Calle Falsa 123",
+            "ciudad": "Bogotá",
+            "is_default": false
+        }
+    ],
+    "created_at": {
+        "$date": "2023-11-01T08:00:00Z"
+    }
+}

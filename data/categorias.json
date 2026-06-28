@@ -1,0 +1,11 @@
+{
+    "_id": {
+        "$oid": "65a1b2c3d4e5f6001234567b"
+    },
+    "slug": "bolsos-tejidos",
+    "nombres_localizados": {
+        "es": "Bolsos Tejidos",
+        "en": "Woven Bags"
+    },
+    "ruta": "/raiz/artesanias/textiles/bolsos-tejidos"
+}
