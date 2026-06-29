@@ -1,0 +1,12 @@
+# LaTeX Auxiliary files in docs/Informe/
+/docs/Informe/*.aux
+/docs/Informe/*.log
+/docs/Informe/*.toc
+/docs/Informe/*.out
+/docs/Informe/*.bbl
+/docs/Informe/*.blg
+/docs/Informe/*.fdb_latexmk
+/docs/Informe/*.fls
+/docs/Informe/*.synctex.gz
+/docs/Informe/*.pdf
+/docs/Informe/*.tex
