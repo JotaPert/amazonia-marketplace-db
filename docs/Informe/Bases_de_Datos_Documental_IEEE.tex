@@ -11,7 +11,8 @@
 \usepackage{booktabs}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage{url}
+\usepackage[hyphens]{url}
+\usepackage[hidelinks]{hyperref}
 \setlength{\emergencystretch}{3em}
 
 \begin{document}
@@ -39,7 +40,7 @@ Las bases de datos documentales nacieron para resolver un problema concreto: alm
 Para establecer el marco de referencia del sistema de almacenamiento, la Fig.\ \ref{fig:mapaconceptual} ilustra un mapa conceptual que sintetiza la arquitectura de las bases de datos documentales. El esquema desglosa el paradigma en cuatro ejes fundamentales: (1) los \textbf{fundamentos conceptuales}, que destacan la escalabilidad horizontal y la flexibilidad dinámica del modelo; (2) los \textbf{fundamentos teóricos}, basados en la agrupación lógica mediante colecciones y estructuras de pares clave-valor; (3) las \textbf{operaciones básicas} de manipulación transaccional (CRUD: Create, Read, Update, Delete); y (4) las \textbf{herramientas tecnológicas}, resaltando motores líderes como MongoDB y los formatos de intercambio JSON/BSON. En conjunto, este diagrama evidencia cómo la unidad de agregación del documento elimina la rigidez de los esquemas relacionales, permitiendo un modelado ágil.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\columnwidth]{../Img/MapaConceptual.png}}
+\centerline{\includegraphics[width=\columnwidth]{../../Img/MapaConceptual.png}}
 \caption{Mapa conceptual del ecosistema de bases de datos documentales. Se detallan los principios de flexibilidad estructural, operaciones transaccionales (CRUD) y las tecnologías de estandarización empleadas para el manejo de datos no relacionales.}
 \label{fig:mapaconceptual}
 \end{figure}
@@ -154,7 +155,7 @@ El modelo conceptual describe las entidades principales del sistema y sus relaci
 La Fig.\ \ref{fig:modeloconceptual} presenta el diagrama del modelo conceptual del sistema. Su diseño fue elaborado siguiendo metodologías estándar de modelado de datos para representar visualmente las relaciones y cardinalidades de alto nivel, sirviendo como mapa de ruta previo a la transcripción en colecciones NoSQL.
 
 \begin{figure}[htbp]
-\centerline{\includegraphics[width=\columnwidth]{../Img/ModeloConceptual.png}}
+\centerline{\includegraphics[width=\columnwidth]{../../Img/ModeloConceptual.png}}
 \caption{Modelo conceptual del Marketplace de la Amazonía. Se representan las entidades principales (Artículos, Usuarios, Pedidos, Comunidades, Categorías y Reseñas) junto con sus relaciones y cardinalidades.}
 \label{fig:modeloconceptual}
 \end{figure}
@@ -256,14 +257,7 @@ El abanico completo de consultas operativas —incluyendo proyecciones, agregaci
     \item \textbf{Considerar la seguridad desde el inicio:} en entornos DBaaS, establecer protocolos de cifrado robustos para datos sensibles \cite{khan2023}.
 \end{itemize}
 
-\begin{thebibliography}{00}
-\bibitem{carvalho2023} I. Carvalho, F. Sá, and J. Bernardino, ``Performance Evaluation of NoSQL Document Databases: Couchbase, CouchDB, and MongoDB,'' \textit{Algorithms}, vol. 16, no. 2, art. 78, 2023. doi: 10.3390/a16020078.
-\bibitem{meier2019} A. Meier and M. Kaufmann, \textit{SQL \& NoSQL Databases: Models, Languages, Consistency Options and Architectures for Big Data Management}, 1st ed. Cham: Springer, 2019.
-\bibitem{harper2025} J. Harper, ``What DocumentDB Means for Open Source,'' \textit{The New Stack}, Dec. 3, 2025. [En línea]. Disponible en: \url{https://thenewstack.io/what-documentdb-means-for-open-source/}
-\bibitem{khan2023} W. Khan et al., ``SQL and NoSQL database software architecture performance analysis and assessments---A systematic literature review,'' \textit{Big Data and Cognitive Computing}, vol. 7, art. 97, 2023. doi: 10.3390/bdcc7020097.
-\bibitem{marquez2026} \begin{sloppypar}J.~P. Márquez Ablan, \textit{amazonia-marketplace-db}. GitHub, 2026. [En línea]. Disponible en: \url{https://github.com/JotaPert/amazonia-marketplace-db}\end{sloppypar}
-\bibitem{mongodb2026} MongoDB, ``Document Database,'' MongoDB, Inc. [En l\'{\i}nea]. Disponible en: \url{https://www.mongodb.com/es/resources/basics/databases/document-databases} [Accedido: Jun. 2026].
-\end{thebibliography}
+
 
 \appendices
 \section{Validación Estricta de Esquemas (\texttt{\$jsonSchema})}
@@ -281,5 +275,14 @@ Un índice en una base de datos funciona de manera análoga al índice de un lib
     \item \textbf{Índices Compuestos:} combinan dos o más campos en un único índice orientado a optimizar las consultas más frecuentes de la interfaz. Por ejemplo, un índice sobre \textit{categoria\_id} y \textit{precio} evita que el motor tenga que revisar toda la colección (\textit{collection scan}) para devolver el catálogo filtrado y ordenado.
     \item \textbf{Índices de Texto (Full-Text Search):} permiten búsquedas semánticas sobre los atributos de internacionalización. Se asignaron pesos ponderados (10 para \textit{nombres.es} frente a 5 para \textit{descripciones.es}) para que el algoritmo de relevancia priorice coincidencias en el título del producto sobre el texto de su descripción.
 \end{itemize}
+\begin{thebibliography}{00}
+\hbadness=10000
+\bibitem{carvalho2023} I. Carvalho, F. Sá, and J. Bernardino, ``Performance Evaluation of NoSQL Document Databases: Couchbase, CouchDB, and MongoDB,'' \textit{Algorithms}, vol. 16, no. 2, art. 78, 2023. doi: 10.3390/a16020078.
+\bibitem{meier2019} A. Meier and M. Kaufmann, \textit{SQL \& NoSQL Databases: Models, Languages, Consistency Options and Architectures for Big Data Management}, 1st ed. Cham: Springer, 2019.
+\bibitem{harper2025} J. Harper, ``What DocumentDB Means for Open Source,'' \textit{The New Stack}, Dec. 3, 2025. [En línea]. Disponible en: \url{https://thenewstack.io/what-documentdb-means-for-open-source/}
+\bibitem{khan2023} W. Khan et al., ``SQL and NoSQL database software architecture performance analysis and assessments---A systematic literature review,'' \textit{Big Data and Cognitive Computing}, vol. 7, art. 97, 2023. doi: 10.3390/bdcc7020097.
+\bibitem{marquez2026} J.~P. Márquez Ablan, \textit{amazonia-marketplace-db}. GitHub, 2026. [En línea]. Disponible en: \href{https://github.com/JotaPert/amazonia-marketplace-db}{\url{https://github.com/JotaPert/amazonia-marketplace-db}}
+\bibitem{mongodb2026} MongoDB, ``Document Database,'' MongoDB, Inc. [En l\'{\i}nea]. Disponible en: \href{https://www.mongodb.com/es/resources/basics/databases/document-databases}{\url{https://www.mongodb.com/es/resources/basics/databases/document-databases}} [Accedido: Jun. 2026].
+\end{thebibliography}
 
 \end{document}
